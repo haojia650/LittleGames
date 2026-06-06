@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Games Arcade</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-topbar">
+        <p class="eyebrow" data-i18n="eyebrow">Mini Arcade</p>
+        <button id="theme-toggle" class="theme-toggle" type="button" data-i18n="themeDark">夜间模式</button>
+      </div>
+      <h1 data-i18n="title">Little Games</h1>
+      <div class="language-switcher" aria-label="Language switcher">
+        <button type="button" class="language-button active" data-lang="zh">中文</button>
+        <button type="button" class="language-button" data-lang="en">EN</button>
+        <button type="button" class="language-button" data-lang="ja">日本語</button>
+        <button type="button" class="language-button" data-lang="ko">한국어</button>
+      </div>
+      <p class="intro" data-i18n="intro">
+        这里有 10 个可直接在浏览器里玩的小游戏：2048、打地鼠、记忆翻牌、反应测试、弹球打砖块、井字棋、石头剪刀布、数字猜谜、颜色记忆、清除方块。
+      </p>
+
+      <nav class="game-nav" aria-label="小游戏列表">
+        <button class="game-tab active" data-target="game-2048" data-i18n="tab2048">2048</button>
+        <button class="game-tab" data-target="game-mole" data-i18n="tabMole">打地鼠</button>
+        <button class="game-tab" data-target="game-memory" data-i18n="tabMemory">记忆翻牌</button>
+        <button class="game-tab" data-target="game-reaction" data-i18n="tabReaction">反应测试</button>
+        <button class="game-tab" data-target="game-breakout" data-i18n="tabBreakout">弹球打砖块</button>
+        <button class="game-tab" data-target="game-tictactoe" data-i18n="tabTtt">井字棋</button>
+        <button class="game-tab" data-target="game-rps" data-i18n="tabRps">石头剪刀布</button>
+        <button class="game-tab" data-target="game-guess" data-i18n="tabGuess">数字猜谜</button>
+        <button class="game-tab" data-target="game-simon" data-i18n="tabSimon">颜色记忆</button>
+        <button class="game-tab" data-target="game-pop" data-i18n="tabPop">清除方块</button>
+      </nav>
+
+      <div class="sidebar-note" data-i18n="sidebarNote">
+        键盘提示：
+        2048 用方向键或 WASD
+        打砖块用 A/D 或 ←/→
+        数字猜谜可直接输入数字
+      </div>
+    </aside>
+
+    <section class="content">
+      <article id="game-2048" class="game-panel active">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerPuzzle">Puzzle</p>
+            <h2>2048</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="scoreLabel">分数</span>
+              <strong id="score-2048">0</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copy2048">把相同数字合并到一起，目标是做出 2048。方向键和 WASD 都能控制。</p>
+        <div class="game-body split-body">
+          <div id="board-2048" class="board-2048" aria-label="2048 棋盘"></div>
+          <div class="side-actions">
+            <button id="reset-2048" class="primary-button" data-i18n="restartButton">重新开始</button>
+            <div class="control-pad">
+              <button data-2048-control="up" data-i18n="upAction">上</button>
+              <div class="control-row">
+                <button data-2048-control="left" data-i18n="leftAction">左</button>
+                <button data-2048-control="down" data-i18n="downAction">下</button>
+                <button data-2048-control="right" data-i18n="rightAction">右</button>
+              </div>
+            </div>
+            <p id="message-2048" class="game-message">开始合并数字。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-mole" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerArcade">Arcade</p>
+            <h2 data-i18n="tabMole">打地鼠</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="scoreLabel">得分</span>
+              <strong id="mole-score">0</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="timeLabel">时间</span>
+              <strong id="mole-time">30</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyMole">点击冒头的地鼠，30 秒内尽量多拿分。</p>
+        <div class="game-body split-body">
+          <div class="mole-grid" id="mole-grid">
+            <button class="mole-hole" data-hole="0"></button>
+            <button class="mole-hole" data-hole="1"></button>
+            <button class="mole-hole" data-hole="2"></button>
+            <button class="mole-hole" data-hole="3"></button>
+            <button class="mole-hole" data-hole="4"></button>
+            <button class="mole-hole" data-hole="5"></button>
+            <button class="mole-hole" data-hole="6"></button>
+            <button class="mole-hole" data-hole="7"></button>
+            <button class="mole-hole" data-hole="8"></button>
+          </div>
+          <div class="side-actions">
+            <button id="start-mole" class="primary-button" data-i18n="start30">开始 30 秒</button>
+            <p id="message-mole" class="game-message">准备好后点击开始。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-memory" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerMatch">Match</p>
+            <h2 data-i18n="tabMemory">记忆翻牌</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="movesLabel">步数</span>
+              <strong id="memory-moves">0</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="pairsLabel">配对</span>
+              <strong id="memory-pairs">0 / 6</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyMemory">翻开两张卡牌，找到相同图案。用最少步数完成配对。</p>
+        <div class="game-body stack-body">
+          <div id="memory-board" class="memory-board" aria-label="记忆翻牌棋盘"></div>
+          <div class="inline-actions">
+            <button id="reset-memory" class="primary-button" data-i18n="reshuffleButton">重新洗牌</button>
+            <p id="message-memory" class="game-message">翻开第一张牌。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-reaction" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerSpeed">Speed</p>
+            <h2 data-i18n="tabReaction">反应测试</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="currentLabel">当前</span>
+              <strong id="reaction-current">-- ms</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="bestLabel">最佳</span>
+              <strong id="reaction-best">-- ms</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyReaction">点击开始后等待变绿，立刻点击区域。过早点击会判定抢跑。</p>
+        <div class="game-body stack-body">
+          <button id="reaction-pad" class="reaction-pad idle" data-i18n="tapToStart">点击开始</button>
+          <div class="inline-actions">
+            <button id="start-reaction" class="primary-button" data-i18n="startTest">开始测试</button>
+            <p id="message-reaction" class="game-message">看谁能反应到 200ms 内。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-breakout" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerClassic">Classic</p>
+            <h2 data-i18n="tabBreakout">弹球打砖块</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="scoreLabel">得分</span>
+              <strong id="breakout-score">0</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="livesLabel">生命</span>
+              <strong id="breakout-lives">3</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyBreakout">用挡板接住小球，把所有砖块清空。支持 A/D 和方向键，也能用鼠标移动挡板。</p>
+        <div class="game-body stack-body">
+          <canvas id="breakout-canvas" class="breakout-canvas" width="720" height="440" aria-label="弹球打砖块游戏区域"></canvas>
+          <div class="inline-actions">
+            <button id="start-breakout" class="primary-button" data-i18n="startPause">开始 / 暂停</button>
+            <button id="reset-breakout" class="ghost-button" data-i18n="resetButton">重置</button>
+            <p id="message-breakout" class="game-message">点击开始发球。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-tictactoe" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerDuel">Duel</p>
+            <h2 data-i18n="tabTtt">井字棋</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="playerLabel">玩家</span>
+              <strong id="ttt-turn">X</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="recordLabel">战绩</span>
+              <strong id="ttt-score">0 : 0</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyTtt">你用 X，对手 AI 用 O。先连成一条线就赢。</p>
+        <div class="game-body split-body">
+          <div id="ttt-board" class="ttt-board" aria-label="井字棋棋盘"></div>
+          <div class="side-actions">
+            <button id="reset-ttt" class="primary-button" data-i18n="newRound">新一局</button>
+            <p id="message-ttt" class="game-message">轮到你了。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-rps" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerQuick">Quick Match</p>
+            <h2 data-i18n="tabRps">石头剪刀布</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="youLabel">你</span>
+              <strong id="rps-player-score">0</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="cpuLabel">电脑</span>
+              <strong id="rps-cpu-score">0</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyRps">选出你的手势，和电脑来一场快速对决。</p>
+        <div class="game-body stack-body">
+          <div class="rps-actions">
+            <button data-rps="rock" data-i18n="rockLabel">石头</button>
+            <button data-rps="paper" data-i18n="paperLabel">布</button>
+            <button data-rps="scissors" data-i18n="scissorsLabel">剪刀</button>
+          </div>
+          <div class="result-strip">
+            <div class="result-card">
+              <span data-i18n="yourPick">你的选择</span>
+              <strong id="rps-player-pick">--</strong>
+            </div>
+            <div class="result-card">
+              <span data-i18n="cpuPick">电脑选择</span>
+              <strong id="rps-cpu-pick">--</strong>
+            </div>
+          </div>
+          <p id="message-rps" class="game-message">来一局。</p>
+        </div>
+      </article>
+
+      <article id="game-guess" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerLogic">Logic</p>
+            <h2 data-i18n="tabGuess">数字猜谜</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="attemptsLabel">剩余次数</span>
+              <strong id="guess-attempts">10</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyGuess">系统会想一个 1 到 100 之间的数字，你有 10 次机会猜中它。</p>
+        <div class="game-body split-body">
+          <div class="guess-box">
+            <label class="guess-label" for="guess-input" data-i18n="guessLabel">输入你的猜测</label>
+            <input id="guess-input" class="guess-input" type="number" min="1" max="100" placeholder="1-100">
+            <button id="guess-submit" class="primary-button" data-i18n="submitButton">提交</button>
+          </div>
+          <div class="side-actions">
+            <button id="guess-reset" class="ghost-button" data-i18n="newQuestion">重新出题</button>
+            <p id="message-guess" class="game-message">试着猜一个数字。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-simon" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerMemory">Memory</p>
+            <h2 data-i18n="tabSimon">颜色记忆</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="roundLabel">回合</span>
+              <strong id="simon-round">0</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copySimon">记住闪烁顺序并按相同顺序点击颜色块。每轮都会多一个颜色。</p>
+        <div class="game-body split-body">
+          <div class="simon-board">
+            <button class="simon-pad simon-green" data-simon="0"></button>
+            <button class="simon-pad simon-red" data-simon="1"></button>
+            <button class="simon-pad simon-yellow" data-simon="2"></button>
+            <button class="simon-pad simon-blue" data-simon="3"></button>
+          </div>
+          <div class="side-actions">
+            <button id="start-simon" class="primary-button" data-i18n="startMemory">开始记忆</button>
+            <p id="message-simon" class="game-message">准备好后开始。</p>
+          </div>
+        </div>
+      </article>
+
+      <article id="game-pop" class="game-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="kickerPop">Pop</p>
+            <h2 data-i18n="tabPop">清除方块</h2>
+          </div>
+          <div class="hud">
+            <div class="hud-card">
+              <span data-i18n="scoreLabel">分数</span>
+              <strong id="pop-score">0</strong>
+            </div>
+            <div class="hud-card">
+              <span data-i18n="cellsLabel">剩余格</span>
+              <strong id="pop-cells">36</strong>
+            </div>
+          </div>
+        </div>
+        <p class="panel-copy" data-i18n="copyPop">点击任意方块会消除它和上下左右同色的连续区域，区域越大分越高。</p>
+        <div class="game-body stack-body">
+          <div id="pop-board" class="pop-board" aria-label="清除方块棋盘"></div>
+          <div class="inline-actions">
+            <button id="reset-pop" class="primary-button" data-i18n="restartRound">重开一局</button>
+            <p id="message-pop" class="game-message">尽量点更大的同色区域。</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
